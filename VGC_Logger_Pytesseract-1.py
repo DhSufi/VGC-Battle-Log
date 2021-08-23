@@ -104,7 +104,7 @@ def frame_ocr(q):
                         file.write(texto + '\n')
                     print(texto)
 
-ef get_hp(myframe):
+def get_hp(myframe):
     contornos, hierarchy = cv2.findContours(myframe, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
     if contornos == []:
@@ -247,7 +247,7 @@ def ventana(q, capturadora):
                 were_different1 = True
                 previous_hp1 = current_hp1
 
-            if hp1_counter == 7:
+            if hp1_counter == 6:
                 if printed_hp1 != current_hp1:
                     slot_name1 = mask_hp_box_black[620:650, 10:160]   # 30 x 150
                     q.put(slot_name1)
@@ -267,7 +267,7 @@ def ventana(q, capturadora):
                 were_different2 = True
                 previous_hp2 = current_hp2
 
-            if hp2_counter == 7:
+            if hp2_counter == 6:
                 if printed_hp2 != current_hp2:
                     slot_name2 = mask_hp_box_black[620:650, 345:495]
                     q.put(slot_name2)
