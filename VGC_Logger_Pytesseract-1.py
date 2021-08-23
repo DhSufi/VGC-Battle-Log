@@ -4,7 +4,10 @@ import numpy as np
 import cv2
 import pytesseract
 from multiprocessing import Process, Queue
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+with open('Resources/OCR_Path.txt', "r") as file:
+    my_path = file.read()
+pytesseract.pytesseract.tesseract_cmd = str(my_path)
 
 
 def choose_capturecard():
@@ -142,7 +145,6 @@ def ventana(q, capturadora):
 
     # VARIABLES
     text_read = False
-    current_length = None
     previous_length = None
     equal_length = 0
 
@@ -209,6 +211,7 @@ def ventana(q, capturadora):
         P17 = mask_white[25:80, 1260:1266]   # white HP4 right 330
         P18 = mask_white[90:100, 1100:1200]  # white HP4 punto negativo 1000
 
+        #GET PASTILLA NEGRA MESSAGE
         if checkpoint(P1, 250) and checkpoint(P2, 250) and checkpoint(P3, 150) and checkpoint(P4, 150) and checkpoint(P5, 950) != True and checkpoint(P6, 950) != True:
             if text_read is False:
                 current_length = checktextlength(mask_black)
@@ -223,10 +226,9 @@ def ventana(q, capturadora):
                     previous_length = current_length
         else:
             text_read = False
-            current_length = None
             previous_length = None
             equal_length = 0
-            # print("FINALIZADO LECTURA TEXTO")
+            # print("FINALIZADA LECTURA TEXTO")
 
         # GET HP1
         if checkpoint(P7, 350) and checkpoint(P8, 350) and checkpoint(P9, 590) != True:
