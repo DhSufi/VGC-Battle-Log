@@ -209,7 +209,7 @@ Appletun Slot1 HP: 48%
 Communicating...
 The opposing Rillaboom used U-turn!
 Appletun Slot1 HP: 38%
-It’s super effective!
+    It’s super effective!
 Rillaboom Slot3 HP: 0%
 The opposing Rillaboom was hurt by the Rocky Helmet!
 The opposing Rillaboom fainted!
