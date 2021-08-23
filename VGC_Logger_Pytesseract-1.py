@@ -137,29 +137,24 @@ def ventana(q, capturadora):
 
     # VARIABLES
     text_read = False
-    current_length = None
     previous_length = None
     equal_length = 0
 
-    current_hp1 = 0
     previous_hp1 = 0
     hp1_counter = 0
     were_different1 = False
     printed_hp1 = None
 
-    current_hp2 = 0
     previous_hp2 = 0
     hp2_counter = 0
     were_different2 = False
     printed_hp2 = None
 
-    current_hp3 = 0
     previous_hp3 = 0
     hp3_counter = 0
     were_different3 = False
     printed_hp3 = None
 
-    current_hp4 = 0
     previous_hp4 = 0
     hp4_counter = 0
     were_different4 = False
@@ -222,8 +217,9 @@ def ventana(q, capturadora):
                 current_length = checktextlength(mask_textobox)
                 if previous_length == current_length:
                     equal_length += 1
-                    if equal_length == 6:
-                        textRegion = frame[585:685, 100:1150]
+                    if equal_length == 5:
+                        textRegion = cv2.bitwise_not(frame)
+                        textRegion = textRegion[585:685, 100:1150]
                         q.put(textRegion)
                         text_read = True
                 else:
@@ -231,7 +227,6 @@ def ventana(q, capturadora):
                     previous_length = current_length
         else:
             text_read = False
-            current_length = None
             previous_length = None
             equal_length = 0
             # print("FINALIZADO LECTURA TEXTO")
@@ -250,6 +245,8 @@ def ventana(q, capturadora):
             if hp1_counter == 6:
                 if printed_hp1 != current_hp1:
                     slot_name1 = mask_hp_box_black[620:650, 10:160]   # 30 x 150
+                    slot_name1 = cv2.bitwise_not(slot_name1)
+                    # cv2.imshow("cuadro", slot_name1)
                     q.put(slot_name1)
                     q.put("Slot1 HP: " + str(current_hp1) + "%")
                     printed_hp1 = current_hp1
@@ -270,6 +267,8 @@ def ventana(q, capturadora):
             if hp2_counter == 6:
                 if printed_hp2 != current_hp2:
                     slot_name2 = mask_hp_box_black[620:650, 345:495]
+                    slot_name2 = cv2.bitwise_not(slot_name2)
+                    # cv2.imshow("cuadro", slot_name2)
                     q.put(slot_name2)
                     q.put("Slot2 HP: " + str(current_hp2) + "%")
                     printed_hp2 = current_hp2
@@ -290,6 +289,8 @@ def ventana(q, capturadora):
             if hp3_counter == 7:
                 if printed_hp3 != current_hp3:
                     slot_name3 = mask_hp_box_black[30:60, 635:785]
+                    slot_name3 = cv2.bitwise_not(slot_name3)
+                    # cv2.imshow("cuadro", slot_name3)
                     q.put(slot_name3)
                     q.put("Slot3 HP: " + str(current_hp3) + "%")
                     printed_hp3 = current_hp3
@@ -310,6 +311,8 @@ def ventana(q, capturadora):
             if hp4_counter == 7:
                 if printed_hp4 != current_hp4:
                     slot_name4 = mask_hp_box_black[30:60, 975:1125]
+                    slot_name4 = cv2.bitwise_not(slot_name4)
+                    # cv2.imshow("cuadro", slot_name4)
                     q.put(slot_name4)
                     q.put("Slot4 HP: " + str(current_hp4) + "%")
                     printed_hp4 = current_hp4

@@ -1,6 +1,6 @@
 from difflib import SequenceMatcher
 
-with open('Logs/Log3.txt', "r") as file:
+with open('Logs/LogV1.txt', "r") as file:
     content = file.readlines()
 
 with open('Resources/PokemonList.txt', "r") as pokemones:
