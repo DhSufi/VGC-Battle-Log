@@ -88,21 +88,22 @@ def frame_ocr(q):
             elif img == 'FILE':
                 my_file = q.get()
             elif type(img) == str:
-                with open(my_file, "a+") as file:
-                    file.write(pokemon_name + " " + img + '\n')
+                with open(my_file, "a+") as log:
+                    log.write(pokemon_name + " " + img + '\n')
                 print(pokemon_name + " " + img)
             elif type(img) != str:
                 if len(img) < 70:
                     pokemon_name = pytesseract.image_to_string(img)
                     pokemon_name = pokemon_name.rstrip()
                 if len(img) > 70:
-                    texto = pytesseract.image_to_string(img)
-                    texto = texto.rstrip()
+                    my_string = pytesseract.image_to_string(img)
+                    my_string = my_string.rstrip()
                     # texto = texto.lstrip("j")
+                    with open(my_file, "a+") as log:
+                        log.write(my_string + '\n')
 
-                    with open(my_file, "a+") as file:
-                        file.write(texto + '\n')
-                    print(texto)
+                    print(my_string)
+
 
 def get_hp(myframe):
     contornos, hierarchy = cv2.findContours(myframe, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)

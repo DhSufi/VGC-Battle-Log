@@ -1,6 +1,6 @@
 from difflib import SequenceMatcher
 
-with open('Logs/LogV1.txt', "r") as file:
+with open('Logs/LogV3.txt', "r") as file:
     content = file.readlines()
 
 with open('Resources/PokemonList.txt', "r") as pokemones:
@@ -18,6 +18,63 @@ def similar(x, y):
         Returns the percentage (0 to 1) of similarity between the 2 strings """
 
     return SequenceMatcher(None, x, y).ratio()
+
+
+def get_similar_from_list(my_string, my_list):
+
+    """
+    :param my_string: string to look for in my_list
+    :param my_list: List of strings
+    :return: One string from my_list which is the most similar to my_string
+    """
+
+    previous_similar = 0
+    final_string = ''
+    for item in my_list:
+        current_similar = similar(my_string, item)
+        if current_similar > previous_similar:
+            final_string = item
+            previous_similar = current_similar
+
+    return final_string
+
+
+def parse_string(line, start, end):
+    """
+    :param line: String to analyze
+    :param start: String index starting point
+    :param end: String index ending point
+    :return: parsed string in base of global characters variable
+    """
+    global characters
+
+    limit1 = None
+    limit2 = None
+
+    if type(start) == str:
+        limit1 = line.find(start)
+        limit1 = limit1 + len(start)
+    elif type(start) == int:
+        limit1 = start
+
+    if type(end) == str:
+        limit2 = line.find(end)
+    elif type(end) == int:
+        limit2 = end
+
+    my_string = line[limit1:limit2]
+
+    final_string = ''
+    for letter in my_string:
+        if letter in characters:
+            final_string += letter
+
+    final_string = final_string.strip()
+
+    return final_string
+
+
+
 
 def get_turns():
 
@@ -52,7 +109,9 @@ def get_turns():
 
     return total_turns, turn_lines
 
-def get_pokes():
+
+
+def get_picks():
 
     """
     Takes:
@@ -175,7 +234,7 @@ def get_pokes():
     return final_pokemon_player1, final_pokemon_player2
 
 
-def get_hp():
+def get_hp_per_turn():
 
     """
     Takes:
@@ -189,7 +248,7 @@ def get_hp():
     global content
 
     turns, lines = get_turns()
-    pokes_player1, pokes_player2 = get_pokes()
+    pokes_player1, pokes_player2 = get_picks()
 
     # Get each turn hp PRESENT IN LOG FILE, for each pokemon of each player. And create a dictionary with the data
     for index in range(turns):
@@ -206,6 +265,7 @@ def get_hp():
             for a in range(start, end):
                 line = content[a].rstrip()
                 line = line.upper()
+
 
                 if 'SLOT1' in line or 'SLOT2' in line:
                     limit = line.find('SLOT')
@@ -306,8 +366,9 @@ def get_attacks():
     global content
 
     turns, lines = get_turns()
-    pokes_player1, pokes_player2 = get_pokes()
+    pokes_player1, pokes_player2 = get_picks()
 
+    # start a loop in range of battle turns
     for index in range(turns):
         start = lines[index]
 
@@ -316,85 +377,139 @@ def get_attacks():
         else:
             end = lines[index+1]
 
-
+        #for each turn, start a loop which reads each line of the turn
         for a in range(start, end):
-            line = content[a].rstrip()
-            line = line.upper()
+            turn_line = content[a].rstrip()
+            turn_line = turn_line.upper()
 
-            if 'USED' in line:
-                damage = False
-                for my_word in range(a+1,end):
-                    temp_line = content[my_word].rstrip()
-                    temp_line = temp_line.upper()
-                    if 'USED' in temp_line:
-                        break
-                    elif 'SLOT' in temp_line:
-                        damage = True
-                        break
-
-                if damage = True:
-                    if 'OPPOSING' in line:
-                        limit1 = line.find('OPPOSING')
-                        limit1 = limit1 + 9
-                        limit2 = line.find('USED')
-                        pokemon = line[limit1:limit2]
-                        my_pokemon = ''
-                        for letter in pokemon:
-                            if letter in characters:
-                                my_pokemon += letter
-                        my_pokemon = my_pokemon.strip()
-
-                        final_poke = ''
-                        previous_similar = 0
-                        for poke in pokes_player2:
-                            current_similar = similar(my_pokemon, poke)
-                            if current_similar > previous_similar:
-                                final_poke = poke
+            if 'USED' in turn_line:
+                if 'OPPOSING' in turn_line:
+                    attacker_poke = parse_string(turn_line, 'OPPOSING', 'USED')
+                    attacker_poke = get_similar_from_list(attacker_poke, pokes_player2)
+                    print('(Turn' + str(index+1) + ') Player2 ' + str(attacker_poke) + ' ATTACKS')
 
 
+                    harmed = []
+                    for next_line in range(a + 1, end):
+                        temp_line = content[next_line].rstrip()
+                        temp_line = temp_line.upper()
+                        previous_line = content[next_line - 1].rstrip()
+                        previous_line = previous_line.upper()
 
+                        if 'USED' in temp_line:
+                            if len(harmed) == 0:
+                                harmed.append('NO DEALS DAMAGE')
+                                break
+                            else:
+                                break
+                        elif 'SLOT' in temp_line and 'USED' in previous_line or 'SLOT' in previous_line:
+                            harmed_poke = parse_string(temp_line, 0, 'SLOT')
+                            remain_hp = parse_string(temp_line, 'HP:', len(temp_line))
+                            if 'SLOT1' in temp_line or 'SLOT2' in temp_line:
+                                harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
+                                if harmed_poke == attacker_poke:
+                                    harmed.append('RECOIL: ' + str(remain_hp))
+                                else:
+                                    harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
+                            elif 'SLOT3' in temp_line or 'SLOT4' in temp_line:
+                                harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
+                                harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
 
-                    else:
+                    print(len(harmed))
+                    print(harmed)
 
+                else:
+                    attacker_poke = parse_string(turn_line, 0, 'USED')
+                    attacker_poke = get_similar_from_list(attacker_poke, pokes_player1)
+                    print('(Turn' + str(index + 1) + ') Player1 ' + str(attacker_poke) + ' ATTACKS')
 
+                    harmed = []
+                    for next_line in range(a + 1, end):
+                        temp_line = content[next_line].rstrip()
+                        temp_line = temp_line.upper()
+                        previous_line = content[next_line - 1].rstrip()
+                        previous_line = previous_line.upper()
 
+                        if 'USED' in temp_line:
+                            if len(harmed) == 0:
+                                harmed.append('NO DEALS DAMAGE')
+                                break
+                            else:
+                                break
+                        elif 'SLOT' in temp_line and 'USED' in previous_line or 'SLOT' in previous_line:
+                            harmed_poke = parse_string(temp_line, 0, 'SLOT')
+                            remain_hp = parse_string(temp_line, 'HP:', len(temp_line))
+                            if 'SLOT1' in temp_line or 'SLOT2' in temp_line:
+                                harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
+                                if harmed_poke == attacker_poke:
+                                    harmed.append('RECOIL: ' + str(remain_hp))
+                                else:
+                                    harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
+                            elif 'SLOT3' in temp_line or 'SLOT4' in temp_line:
+                                harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
+                                harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
 
-                limit = line.find('SLOT')
-                pokemon = line[0:limit]
-                my_pokemon = ''
-                for letter in pokemon:
-                    if letter in characters:
-                        my_pokemon += letter
-                my_pokemon = my_pokemon.strip()
-
-                if similar(my_pokemon, poke) >=0.80:
-                    present = True
-                    hp = line[limit+9:len(line)]
-                    my_hp = ''
-                    for letter in hp:
-                        if letter in characters:
-                            my_hp += letter
-                    my_hp = my_hp.strip()
-                    final_hp = my_hp
-
-        if present == True:
-            pokes_player1[poke]['Turn' + str(index + 1)] = final_hp
-            # print('Turn ' + str(index+1) + ' ' + str(poke) + ' ' +str(my_hp))
-
-
-
-
-
-
-
-
-
-
-
-
+                    print(len(harmed))
+                    print(harmed)
 
 
 
+        #
+        #
+        #
+        #         for my_word in range(a+1,end):
+        #             temp_line = content[my_word].rstrip()
+        #             temp_line = temp_line.upper()
+        #             if 'SLOT' in temp_line:
+        #                 if 'OPPOSING' in line:
+        #                     limit1 = line.find('OPPOSING')
+        #                     limit1 = limit1 + 9
+        #                     limit2 = line.find('USED')
+        #                     pokemon = line[limit1:limit2]
+        #                     my_pokemon = ''
+        #                     for letter in pokemon:
+        #                         if letter in characters:
+        #                             my_pokemon += letter
+        #                     my_pokemon = my_pokemon.strip()
+        #                     final_poke = ''
+        #                     previous_similar = 0
+        #                     for poke in pokes_player2:
+        #                         current_similar = similar(my_pokemon, poke)
+        #                         if current_similar > previous_similar:
+        #                             final_poke = poke
+        #                             previous_similar = current_similar
+        #
+        #
+        #
+        #
+        #                 else:
+        #
+        #
+        #
+        #
+        #         limit = line.find('SLOT')
+        #         pokemon = line[0:limit]
+        #         my_pokemon = ''
+        #         for letter in pokemon:
+        #             if letter in characters:
+        #                 my_pokemon += letter
+        #         my_pokemon = my_pokemon.strip()
+        #
+        #         if similar(my_pokemon, poke) >=0.80:
+        #             present = True
+        #             hp = line[limit+9:len(line)]
+        #             my_hp = ''
+        #             for letter in hp:
+        #                 if letter in characters:
+        #                     my_hp += letter
+        #             my_hp = my_hp.strip()
+        #             final_hp = my_hp
+        #
+        # if present == True:
+        #     pokes_player1[poke]['Turn' + str(index + 1)] = final_hp
+        #     # print('Turn ' + str(index+1) + ' ' + str(poke) + ' ' +str(my_hp))
+        #
+        #
 
 
 
@@ -404,7 +519,19 @@ def get_attacks():
 
 
 
-remaining_hp1, remaining_hp2 = get_hp()
+
+
+
+
+
+
+
+
+
+
+
+
+remaining_hp1, remaining_hp2 = get_hp_per_turn()
 
 print(remaining_hp1)
 print(remaining_hp2)
@@ -413,3 +540,6 @@ turnos, lineas = get_turns()
 
 print(turnos)
 print(lineas)
+
+get_attacks()
+
