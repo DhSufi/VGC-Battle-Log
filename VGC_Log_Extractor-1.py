@@ -372,50 +372,72 @@ def get_attacks():
     for index in range(turns):
         start = lines[index]
 
-        if index == len(lines)-1:
-            end = len(content)
+        if index == len(lines) - 1:
+            end = len(content) - 1
         else:
-            end = lines[index+1]
+            end = (lines[index+1]) - 1
+
+        print('Turn START')
 
         #for each turn, start a loop which reads each line of the turn
         for a in range(start, end):
             turn_line = content[a].rstrip()
             turn_line = turn_line.upper()
-
+            # print('turn line: ' + str(a) + ' ' + str(turn_line))
+            harm = False
+            harmed = []
             if 'USED' in turn_line:
+                harm = True
                 if 'OPPOSING' in turn_line:
                     attacker_poke = parse_string(turn_line, 'OPPOSING', 'USED')
                     attacker_poke = get_similar_from_list(attacker_poke, pokes_player2)
+                    # crear lista para adjuntar attacker
                     print('(Turn' + str(index+1) + ') Player2 ' + str(attacker_poke) + ' ATTACKS')
 
-
-                    harmed = []
-                    for next_line in range(a + 1, end):
-                        temp_line = content[next_line].rstrip()
-                        temp_line = temp_line.upper()
-                        previous_line = content[next_line - 1].rstrip()
+                    for my_index in range(a + 1, end):
+                        next_line = content[my_index].rstrip()
+                        next_line = next_line.upper()
+                        previous_line = content[my_index - 1].rstrip()
                         previous_line = previous_line.upper()
 
-                        if 'USED' in temp_line:
-                            if len(harmed) == 0:
+                        if 'USED' in next_line:
+                            if harm == False:
                                 harmed.append('NO DEALS DAMAGE')
                                 break
                             else:
                                 break
-                        elif 'SLOT' in temp_line and 'USED' in previous_line or 'SLOT' in previous_line:
-                            harmed_poke = parse_string(temp_line, 0, 'SLOT')
-                            remain_hp = parse_string(temp_line, 'HP:', len(temp_line))
-                            if 'SLOT1' in temp_line or 'SLOT2' in temp_line:
-                                harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
-                                if harmed_poke == attacker_poke:
-                                    harmed.append('RECOIL: ' + str(remain_hp))
-                                else:
+                        elif 'AVOIDED' in next_line:
+                            over_next_line = content[my_index + 1].rstrip()
+                            over_next_line = over_next_line.upper()
+                            if 'SLOT' not in over_next_line:
+                                harmed.append('NO DEALS DAMAGE')
+                                break
+                        elif 'SLOT' in next_line:
+                            if 'USED' in previous_line or 'SLOT' in previous_line or 'AVOIDED' in previous_line:
+                                harmed_poke = parse_string(next_line, 0, 'SLOT')
+                                remain_hp = parse_string(next_line, 'HP:', len(next_line))
+                                if 'SLOT1' in next_line or 'SLOT2' in next_line:
+                                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
+                                    if harmed_poke == attacker_poke:
+                                        harmed.append('RECOIL: ' + str(remain_hp))
+                                    else:
+                                        harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
+                                elif 'SLOT3' in next_line or 'SLOT4' in next_line:
+                                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
                                     harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
-                            elif 'SLOT3' in temp_line or 'SLOT4' in temp_line:
-                                harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
-                                harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
+                            elif 'LOST SOME' in previous_line:
+                                harmed_poke = parse_string(next_line, 0, 'SLOT')
+                                remain_hp = parse_string(next_line, 'HP:', len(next_line))
+                                if 'SLOT1' in next_line or 'SLOT2' in next_line:
+                                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
+                                    if harmed_poke == attacker_poke:
+                                        harmed.append('RECOIL: ' + str(remain_hp))
+                                    else:
+                                        harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
+                                elif 'SLOT3' in next_line or 'SLOT4' in next_line:
+                                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
+                                    harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
 
-                    print(len(harmed))
                     print(harmed)
 
                 else:
@@ -424,34 +446,52 @@ def get_attacks():
                     print('(Turn' + str(index + 1) + ') Player1 ' + str(attacker_poke) + ' ATTACKS')
 
                     harmed = []
-                    for next_line in range(a + 1, end):
-                        temp_line = content[next_line].rstrip()
-                        temp_line = temp_line.upper()
-                        previous_line = content[next_line - 1].rstrip()
+                    for my_index in range(a + 1, end):
+                        next_line = content[my_index].rstrip()
+                        next_line = next_line.upper()
+                        previous_line = content[my_index - 1].rstrip()
                         previous_line = previous_line.upper()
 
-                        if 'USED' in temp_line:
-                            if len(harmed) == 0:
+                        if 'USED' in next_line:
+                            if harm == False:
                                 harmed.append('NO DEALS DAMAGE')
                                 break
                             else:
                                 break
-                        elif 'SLOT' in temp_line and 'USED' in previous_line or 'SLOT' in previous_line:
-                            harmed_poke = parse_string(temp_line, 0, 'SLOT')
-                            remain_hp = parse_string(temp_line, 'HP:', len(temp_line))
-                            if 'SLOT1' in temp_line or 'SLOT2' in temp_line:
-                                harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
-                                if harmed_poke == attacker_poke:
-                                    harmed.append('RECOIL: ' + str(remain_hp))
-                                else:
+                        elif 'AVOIDED' in next_line:
+                            over_next_line = content[my_index+1].rstrip()
+                            over_next_line = over_next_line.upper()
+                            if 'SLOT' not in over_next_line:
+                                harmed.append('NO DEALS DAMAGE')
+                                break
+                        elif 'SLOT' in next_line:
+                            if 'USED' in previous_line or 'SLOT' in previous_line or 'AVOIDED' in previous_line:
+                                harmed_poke = parse_string(next_line, 0, 'SLOT')
+                                remain_hp = parse_string(next_line, 'HP:', len(next_line))
+                                if 'SLOT1' in next_line or 'SLOT2' in next_line:
+                                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
+                                    if harmed_poke == attacker_poke:
+                                        harmed.append('RECOIL: ' + str(remain_hp))
+                                    else:
+                                        harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
+                                elif 'SLOT3' in next_line or 'SLOT4' in next_line:
+                                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
                                     harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
-                            elif 'SLOT3' in temp_line or 'SLOT4' in temp_line:
-                                harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
-                                harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
-
-                    print(len(harmed))
+                            elif 'LOST SOME' in previous_line:
+                                harmed_poke = parse_string(next_line, 0, 'SLOT')
+                                remain_hp = parse_string(next_line, 'HP:', len(next_line))
+                                if 'SLOT1' in next_line or 'SLOT2' in next_line:
+                                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
+                                    if harmed_poke == attacker_poke:
+                                        harmed.append('RECOIL: ' + str(remain_hp))
+                                    else:
+                                        harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
+                                elif 'SLOT3' in next_line or 'SLOT4' in next_line:
+                                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
+                                    harmed.append(str(harmed_poke) + ': ' + str(remain_hp))
                     print(harmed)
 
+        print('Turn END')
 
 
         #
