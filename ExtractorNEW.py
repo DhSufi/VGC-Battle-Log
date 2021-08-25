@@ -237,8 +237,6 @@ def get_attack(line_number):
     # Determinar que ataque ha realizado
     my_line = content[line_number].rstrip()
     my_line = my_line.upper()
-    print(line_number)
-    print(my_line)
     if 'OPPOSING' in my_line:
         attacker_poke = parse_string(my_line, 'OPPOSING', 'USED')
         attacker_poke = get_similar_from_list(attacker_poke, pokes_player2)
@@ -248,7 +246,6 @@ def get_attack(line_number):
         attacker_poke = parse_string(my_line, 0, 'USED')
         attacker_poke = get_similar_from_list(attacker_poke, pokes_player1)
         move_used = parse_string(my_line, 'USED', len(my_line))
-        print(move_used)
         move_used = get_similar_from_list(move_used, my_move_list)
 
     print('The attacker Pokémon was: ' + str(attacker_poke))
@@ -257,7 +254,7 @@ def get_attack(line_number):
     # Determinar que pokemon reciben daño
     attack_lines = get_attack_lines(current_turn)
     start = line_number
-    end = 'caca'
+    end = None
     for a in range(len(attack_lines)):
         if attack_lines[a] == line_number:
             if a+1 == len(attack_lines):
@@ -271,8 +268,7 @@ def get_attack(line_number):
 
 
 
-
-get_attack(17)
+get_attack(46)
 
 
 #################################################################################
