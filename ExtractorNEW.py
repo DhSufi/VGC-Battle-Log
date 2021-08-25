@@ -221,9 +221,9 @@ def get_attack(line_number):
     turns, turn_lines = get_turns()
     pokes_player1, pokes_player2 = get_picks()
 
-    current_turn = ''
 
-    # Determinar en que turno se ha producido el ataque
+    # # DETERMINAR EN QUE TURNO SE HA PRODUCIDO EL ATAQUE # #
+    current_turn = ''
     for a in range(len(turn_lines)):
         if line_number < turn_lines[a]:
             current_turn = a
@@ -233,8 +233,8 @@ def get_attack(line_number):
 
     print('This attack happened in: TURN ' + str(current_turn))
 
-    # Determinar que pokemon ha realizado el ataque
-    # Determinar que ataque ha realizado
+
+    # # DETEMRINAR EL POKEMON ATACANTE Y EL ATAQUE REALIZADO # #
     my_line = content[line_number].rstrip()
     my_line = my_line.upper()
     if 'OPPOSING' in my_line:
@@ -242,33 +242,77 @@ def get_attack(line_number):
         attacker_poke = get_similar_from_list(attacker_poke, pokes_player2)
         move_used = parse_string(my_line, 'USED', len(my_line))
         move_used = get_similar_from_list(move_used, my_move_list)
+        attacker_player = 'PLAYER2'
     else:
         attacker_poke = parse_string(my_line, 0, 'USED')
         attacker_poke = get_similar_from_list(attacker_poke, pokes_player1)
         move_used = parse_string(my_line, 'USED', len(my_line))
         move_used = get_similar_from_list(move_used, my_move_list)
+        attacker_player = 'PLAYER1'
 
-    print('The attacker Pokémon was: ' + str(attacker_poke))
+    print('The attacker player was: ' + str(attacker_player))
+    print('The attacker pokémon was: ' + str(attacker_poke))
     print('The move used in the attack was: ' + str(move_used))
 
-    # Determinar que pokemon reciben daño
+
+    # # DETERMINAR CUANTOS POKEMON RECIBEN DAÑO # #
+
+    # Determinar la lineas de inicio y final del ataque
     attack_lines = get_attack_lines(current_turn)
     start = line_number
-    end = None
-    for a in range(len(attack_lines)):
-        if attack_lines[a] == line_number:
-            if a+1 == len(attack_lines):
-                end = turn_lines[current_turn]
-            else:
-                end = attack_lines[a+1]
 
-    print(start)
-    print(end)
+    index = attack_lines.index(line_number)
+    if index + 1 == len(attack_lines):
+        end = turn_lines[current_turn]
+    else:
+        end = attack_lines[index+1]
+
+    # Deterinar que pokemon reciben daño
+    harm = False
+    harmed_lines = []
+    for b in range(start, end):
+        current_line = content[b].rstrip()
+        current_line = current_line.upper()
+        if 'SLOT' in current_line:
+            harm = True
+            harmed_lines.append(b)
+
+    harmed_player = ''
+    harmed_poke = ''
+    remain_hp = ''
+    if not harm:
+        print('NO DAGAME DEALT')
+    else:
+        for c in harmed_lines:
+            current_line = content[c].strip()
+            current_line = current_line.upper()
+            previous_line = content[c-1].strip()
+            previous_line = previous_line.upper()
+            if 'GO!' not in previous_line and 'SENT OUT' not in previous_line:
+                if 'SLOT1' in current_line or 'SLOT2' in current_line:
+                    harmed_player = 'PLAYER1'
+                elif 'SLOT3' in current_line or 'SLOT4' in current_line:
+                    harmed_player = 'PLAYER2'
+
+                harmed_poke = parse_string(current_line, 0, 'SLOT')
+                remain_hp = parse_string(current_line, 'HP:', len(current_line))
+                if harmed_player == 'PLAYER1':
+                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
+                elif harmed_player == 'PLAYER2':
+                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
+
+                if attacker_player == harmed_player and harmed_poke == attacker_poke:
+                    print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '% (RECOIL)')
+                elif attacker_player == harmed_player and harmed_poke != attacker_poke:
+                    print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '% (HARM PARTNER)' )
+                elif attacker_player != harmed_player:
+                    print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '%')
 
 
 
 
-get_attack(46)
+
+get_attack(38)
 
 
 #################################################################################
