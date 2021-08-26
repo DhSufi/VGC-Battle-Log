@@ -1,0 +1,146 @@
+THIS IS A BETA
+Miguel sent out Torkoal and Venusaur!
+Go! Grimmsnarl and Arcanine!
+The opposing Torkoal’s Attack fell!
+The opposing Venusaur’s Attack fell!
+The sunlight turned harsh!
+Arcanine. Slot2 HP: 100%
+Venusaur Slot3 HP: 100%
+Torkoal Slot4 HP: 100%
+Grimmsnarl Slot1 HP: 100%
+Communicating...
+Miguel withdrew Venusaur!
+Miguel sent out Yveltal!
+The opposing Yveltal is radiating a dark aura!
+Grimmsnarl used Light Screen!
+Light Screen made your team stronger against special moves!
+Arcanine used Snarl!
+Yveltal Slot3 HP: 98%
+Torkoal Slot4 HP: 88%
+It’s not very effective on the opposing Yveltal.
+Torkoal Slot4 HP: 88%
+The opposing Torkoal’s Sp. Atk fell!
+The opposing Yveltal’s Sp. Atk fell!
+The opposing Torkoal used Yawn!
+Arcanine grew drowsy!
+Communicating...
+Arcanine, come back!
+Go! Dracozolt!
+Miguel withdrew Torkoal!
+Miguel sent out Venusaur!
+Venusaur © Slot4 HP: 100%
+The opposing Yveltal used Foul Play!
+Dracozolt Slot2 HP: 35%
+Grimmsnarl used Spirit Break!
+Yveltal Slot3 HP: 55%
+It’s super effective!
+The opposing Yveltal’s Sp. Atk fell!
+Communicating...
+Dracozolt used Protect!
+Dracozolt protected itself!
+Grimmsnarl used Thunder Wave!
+The opposing Venusaur is paralyzed!
+It may be unable to move!
+The opposing Venusaur used Sleep Powder!
+Grimmsnarl fell asleep!
+The opposing Yveltal used Foul Play!
+Dracozolt protected itself!
+Communicating...
+Dracozolt used Protect!
+But it failed!
+The opposing Venusaur used Earth Power!
+Dracozolt Slot2 HP: 0%
+It’s super effective!
+Dracozolt fainted!
+The opposing Yveltal used Foul Play!
+It’s not very effective...
+Grimmsnarl Slot1 HP: 88%
+Grimmsnarl is fast asleep.
+Communicating...
+Go! Arcanine!
+Arcanine: Slot2 HP: 100%
+The opposing Venusaur’s Attack fell!
+The opposing Yveltal’s Attack fell!
+Communicating...
+Grimmsnarl is fast asleep.
+Arcanine used Heat Wave!
+The opposing Venusaur avoided the attack!
+Yveltal Slot3 HP: 40%
+The opposing Venusaur used Earth Power!
+Arcanine Slot2 HP: 69%
+It’s super effective!
+The opposing Yveltal used Foul Play!
+Arcanine Slot2 HP: 25%
+The harsh sunlight faded.
+Communicating...
+Arcanine used Protect!
+Arcanine protected itself!
+The opposing Yveltal used Foul Play!
+Arcanine protected itself!
+Grimmsnarl is fast asleep.
+The opposing Venusaur used Sludge Bomb!
+It’s super effective!
+Grimmsnarl Slot1 HP: 44%
+Communicating...
+Arcanine used Heat Wave!
+Yveltal Slot3 HP: 31%
+Venusaur - Slot4 HP: 46%
+It’s super effective on the opposing Venusaur!
+The opposing Yveltal used Foul Play!
+Arcanine fainted!
+Arcanine Slot2 HP: 0%
+Grimmsnarl woke up!
+Grimmsnarl used Spirit Break!
+Yveltal Slot3 HP: 0%
+It’s super effective!
+The opposing Yveltal fainted!
+The opposing Venusaur used Sludge Bomb!
+It’s super effective!
+Grimmsnarl Slot1 HP: 0%
+Grimmsnarl fainted!
+Communicating...
+Miguel sent out Torkoal!
+Torkoal Slot3 HP: 88%
+Go! FURFU!
+KURED Slot1 HP: 100%
+The sunlight turned harsh!
+Communicating...
+The opposing Venusaur used Earth Power!
+KURRED Slot1 HP: 62%
+A critical hit!
+FUEKEF 2 used Earth Power!
+A critical hit!
+Venusaur Slot4 HP: 0%
+The opposing Venusaur fainted!
+The opposing Torkoal used Yawn!
+FUFF2 grew drowsy!
+Your team’s Light Screen wore off!
+Communicating...
+Miguel sent out Charizard!
+Charizard Slot4 HP: 100%
+Communicating...
+The opposing Charizard used Protect!
+The opposing Charizard protected itself!
+The opposing Torkoal used Protect!
+The opposing Torkoal protected itself!
+FUEFEF 2 used Recover!
+FKUKEZ had its HP restored.
+KURED Slot1 HP: 100%
+Charizard Slot4 HP: 88%
+FUFF 2 fell asleep!
+Communicating...
+The opposing Charizard used Air Slash!
+KURRED Slot1 HP: 36%
+Charizard Slot4 HP: 78%
+The opposing Charizard lost some of its HP!
+KURED Slot1 HP: 36%
+FUFFZ restored its health using its Sitrus Berry!
+KURFD Slot1 HP: 61%
+FUFF 2 is fast asleep.
+The opposing Torkoal used Body Press!
+KURRED Slot1 HP: 37%
+Charizard Slot4 HP: 65%
+Would you like to give up on this battle and quit now?
+Communicating...
+The battle was canceled.
+

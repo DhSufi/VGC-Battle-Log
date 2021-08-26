@@ -1,0 +1,96 @@
+THIS IS A BETA
+Miguel sent out Incineroar and Gothitelle!
+Go! Rillaboom and Gothitelle!
+Grass grew to cover the battlefield!
+Rillaboom’s Attack fell!
+Gothitelle’s Attack fell!
+Rillaboom is switched out by the Eject Pack!
+Communicating...
+Go! Mamoswine!
+Mamoswine: Slot1 HP: 100%
+Incineroar Slot4 HP: 100%
+Gothitelle’ , Slot2 HP: 100%
+Gothitelle Slot3 HP: 100%
+Communicating...
+Gothitelle used Helping Hand!
+Gothitelle is ready to help Mamoswine!
+The opposing Incineroar used Fake Out!
+Mamoswine: Slot1 HP: 88%
+Mamoswine is switched out with the Eject Button!
+Communicating...
+Go! Incineroar!
+Incineroar Slot1 HP: 100%
+The opposing Incineroar’s Attack fell!
+The opposing Gothitelle’s Attack fell!
+The opposing Gothitelle used Fake Out!
+Gothitelle’ , Slot2 HP: 95%
+Gothitelle held up its Red Card against the opposing Gothitelle!
+The opposing Mamoswine was dragged out!
+Gothitelle had its HP restored.
+Gothitelle Slot2 HP: 100%
+Communicating...
+Gothitelle, come back!
+Go! Rillaboom!
+The opposing Mamoswine used Ice Shard!
+It’s not very effective...
+Incineroar Slot1 HP: 92%
+The opposing Incineroar used Parting Shot!
+Rillaboom’s Attack fell!
+Rillaboom’s Sp. Atk fell!
+The opposing Incineroar went back to Miguel!
+Communicating...
+Miguel sent out Gothitelle!
+Incineroar used Parting Shot!
+The opposing Mamoswine’s Attack fell!
+The opposing Mamoswine’s Sp. Atk fell!
+Incineroar went back to Rahxen!
+Communicating...
+Go! Gothitelle!
+Gothitelle* Slot1 HP: 100%
+Communicating...
+Gothitelle used Fake Out!
+Mamoswine Slot3 HP: 92%
+The opposing Mamoswine is switched out with the Eject Button!
+Communicating...
+Miguel sent out Rillaboom!
+Rillaboom Slot3 HP: 100%
+Rillaboom used Grassy Glide!
+Gothitelle Slot4 HP: 69%
+The opposing Gothitelle held up its Red Card against Rillaboom!
+Mamoswine Slot2 HP: 87%
+Mamoswine was dragged out!
+The opposing Gothitelle used Taunt!
+Gothitelle fell for the taunt!
+Mamoswine had its HP restored.
+Gothitelle Slot4 HP: 75%
+The opposing Gothitelle had its HP restored.
+Mamoswine Slot2 HP: 93%
+Gothitelle can’t use Helping Hand after the taunt!
+Gothitelle can’t use Taunt after the taunt!
+Gothitelle can’t use Protect after the taunt!
+Communicating...
+Miguel withdrew Gothitelle!
+Miguel sent out Incineroar!
+Incineroar Slot4 HP: 100%
+Gothitelle’s Attack fell!
+Mamoswine’s Attack was not lowered!
+Gothitelle, come back!
+Go! Incineroar!
+Incineroar: Slot1 HP: 92%
+The opposing Incineroar’s Attack fell!
+The opposing Rillaboom’s Attack fell!
+The opposing Rillaboom is switched out by the Eject Pack!
+Communicating...
+Miguel sent out Gothitelle!
+Gothitelle Slot3 HP: 75%
+Mamoswine used Icicle Crash!
+The opposing Incineroar avoided the attack!
+Mamoswine had its HP restored.
+Mamoswine Slot2 HP: 100%
+Incineroar had its HP restored.
+Incineroar: Slot1 HP: 98%
+Gothitelle Slot3 HP: 82%
+The opposing Gothitelle had its HP restored.
+Would you like to give up on this battle and quit now?
+Communicating...
+The battle was canceled.

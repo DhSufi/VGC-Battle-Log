@@ -1,6 +1,6 @@
 from difflib import SequenceMatcher
 
-with open('Logs/LogV3.txt', "r") as file:
+with open('Logs/RahxenAhicodem.txt', "r") as file:
     content = file.readlines()
 
 with open('Resources/PokemonList.txt', "r") as pokemones:
@@ -92,17 +92,25 @@ def is_turn_finished(line_number):
 
     global content
 
-    current_line = content[line_number].rstrip()
-    current_line = current_line.upper()
+    current_line1 = content[line_number].rstrip()
+    current_line1 = current_line1.upper()
 
-    if 'COMMUNICATING' in current_line:
+    if 'COMMUNICATING' in current_line1:
         previous_line = content[line_number - 1].rstrip()
         previous_line = previous_line.upper()
         next_line = content[line_number + 1].rstrip()
         next_line = next_line.upper()
 
-        if 'WENT BACK' in previous_line or 'SWITCHED OUT' in previous_line or 'GO! ' in next_line or 'SENT OUT' in next_line or 'CANCELED' in next_line or 'COMMUNICATING' in next_line:
+        if (
+         'WENT BACK' in previous_line or
+         'SWITCHED OUT' in previous_line or
+         'GO! ' in next_line or
+         'SENT OUT' in next_line or
+         'CANCELED' in next_line or
+         'COMMUNICATING' in next_line
+        ):
             return False
+
         else:
             return True
     else:
@@ -120,11 +128,11 @@ def is_attacking(line_number):
 
     global content
 
-    current_line = content[line_number].rstrip()
-    current_line = current_line.upper()
+    acurrent_line = content[line_number].rstrip()
+    acurrent_line = acurrent_line.upper()
 
-    if 'USED' in current_line:
-        if 'OPPOSING' in line:
+    if 'USED' in acurrent_line:
+        if 'OPPOSING' in acurrent_line:
             return 'OPPONENT'
         else:
             return 'USER'
@@ -147,10 +155,10 @@ def get_turns():
     total_turns = 0
     turn_lines = []
 
-    for a in range(len(content)):
-        if is_turn_finished(a) == True:
+    for ab in range(len(content)):
+        if is_turn_finished(ab) is True:
             total_turns += 1
-            turn_lines.append(a)
+            turn_lines.append(ab)
 
     return total_turns, turn_lines
 
@@ -169,12 +177,11 @@ def get_attack_lines(turn):
     else:
         end = turn_lines[turn]
 
-
-    for a in range(start, end):
-        my_line = content[a].rstrip()
+    for ac in range(start, end):
+        my_line = content[ac].rstrip()
         my_line = my_line.upper()
         if 'USED' in my_line:
-            attacks_lines.append(a)
+            attacks_lines.append(ac)
 
     return attacks_lines
 
@@ -197,8 +204,8 @@ def get_picks():
     pokes_player1 = []
     pokes_player2 = []
 
-    for a in range(len(content)):
-        line = content[a].rstrip()
+    for ad in range(len(content)):
+        line = content[ad].rstrip()
         line = line.upper()
 
         if 'SLOT1' in line or 'SLOT2' in line:
@@ -208,12 +215,26 @@ def get_picks():
             if my_pick not in pokes_player1:
                 pokes_player1.append(my_pick)
 
-        if 'SLOT3' in line or 'SLOT4' in line:
+        elif 'SLOT3' in line or 'SLOT4' in line:
             my_pick = parse_string(line, 0, 'SLOT')
             my_pick = get_similar_from_list(my_pick, my_pokemon_list)
 
             if my_pick not in pokes_player2:
                 pokes_player2.append(my_pick)
+
+        if 'USED' in line:
+            if 'OPPOSING' in line:
+                my_pick = parse_string(line, 'OPPOSING', 'USED')
+                my_pick = get_similar_from_list(my_pick, my_pokemon_list)
+
+                if my_pick not in pokes_player2:
+                    pokes_player2.append(my_pick)
+            else:
+                my_pick = parse_string(line, 0, 'USED')
+                my_pick = get_similar_from_list(my_pick, my_pokemon_list)
+
+                if my_pick not in pokes_player1:
+                    pokes_player1.append(my_pick)
 
     return pokes_player1, pokes_player2
 
@@ -224,8 +245,8 @@ def get_all_battle_attacks():
 
     my_moves = []
 
-    for a in range(len(content)):
-        my_line = content[a].rstrip()
+    for ae in range(len(content)):
+        my_line = content[ae].rstrip()
         my_line = my_line.upper()
         if 'USED' in my_line:
             move_used = parse_string(my_line, 'USED', len(my_line))
@@ -235,8 +256,9 @@ def get_all_battle_attacks():
 
     return my_moves
 
+
 print('CALCULATING...')
-myturns, myturnlines =  get_turns()
+myturns, myturnlines = get_turns()
 pokes1, pokes2 = get_picks()
 mymoves = get_all_battle_attacks()
 
@@ -256,15 +278,14 @@ def get_attack(line_number):
 
     # # DETERMINAR EN QUE TURNO SE HA PRODUCIDO EL ATAQUE # #
     current_turn = ''
-    for a in range(len(turn_lines)):
-        if line_number < turn_lines[a]:
-            current_turn = a
+    for af in range(len(turn_lines)):
+        if line_number < turn_lines[af]:
+            current_turn = af
             break
         elif turn_lines[-1] < line_number <= len(content):
-            current_turn = a+1
+            current_turn = af+1
 
     print('This attack happened in: TURN ' + str(current_turn))
-
 
     # # DETEMRINAR EL POKEMON ATACANTE Y EL ATAQUE REALIZADO # #
     my_line = content[line_number].rstrip()
@@ -286,7 +307,6 @@ def get_attack(line_number):
     print('The attacker pokémon was: ' + str(attacker_poke))
     print('The move used in the attack was: ' + str(move_used))
 
-
     # # DETERMINAR CUANTOS POKEMON RECIBEN DAÑO # #
 
     # Determinar la lineas de inicio y final del ataque
@@ -294,21 +314,21 @@ def get_attack(line_number):
     start_line = line_number
 
     index = attack_lines.index(line_number)
-    if attack_lines[index] == attack_lines[-1]: # Si es el ultimo ataque
-        if current_turn == len(turn_lines): # Si es el ultimo turno
+    if attack_lines[index] == attack_lines[-1]:  # Si es el ultimo ataque
+        if current_turn == len(turn_lines):  # Si es el ultimo turno
             end_line = len(content)
-            for a in reversed(range(line_number, len(content))):
-                temp_line = content[a].strip()
+            for af in reversed(range(line_number, len(content))):
+                temp_line = content[af].strip()
                 temp_line = temp_line.upper()
                 if 'HAD ITS' in temp_line or 'WAS HURT' in temp_line:
-                    end_line = a
+                    end_line = af
         else:
             end_line = turn_lines[current_turn]
-            for a in reversed(range(line_number, turn_lines[current_turn])):
-                temp_line = content[a].strip()
+            for af in reversed(range(line_number, turn_lines[current_turn])):
+                temp_line = content[af].strip()
                 temp_line = temp_line.upper()
                 if 'HAD ITS' in temp_line or 'WAS HURT' in temp_line:
-                    end_line = a
+                    end_line = af
     else:
         end_line = attack_lines[index+1]
 
@@ -318,17 +338,19 @@ def get_attack(line_number):
     for b in range(start_line, end_line):
         previous_line = content[b - 1].strip()
         previous_line = previous_line.upper()
-        current_line = content[b].strip()
-        current_line = current_line.upper()
+        current_lineb = content[b].strip()
+        current_lineb = current_lineb.upper()
         next_line = content[b + 1].strip()
         next_line = next_line.upper()
-        if 'SLOT' in current_line:
+        if 'SLOT' in current_lineb:
             if (
-            'GO!' not in previous_line and
-            'SENT OUT' not in previous_line and
-            'HAD ITS' not in previous_line and
-            'HAD ITS' not in next_line and
-            'HURT BY ITS' not in previous_line):
+             'GO!' not in previous_line and
+             'SENT OUT' not in previous_line and
+             'HAD ITS' not in previous_line and
+             'HAD ITS' not in next_line and
+             'HURT BY ITS' not in previous_line and
+             'HELD UP' not in previous_line
+            ):
                 harm = True
                 harmed_lines.append(b)
 
@@ -337,36 +359,42 @@ def get_attack(line_number):
         print('NO DAMAGE DEALT')
     else:
         for c in harmed_lines:
-            current_line = content[c].strip()
-            current_line = current_line.upper()
-            previous_line = content[c-1].strip()
-            previous_line = previous_line.upper()
-            # if 'GO!' not in previous_line and 'SENT OUT' not in previous_line:
-            if 'SLOT1' in current_line or 'SLOT2' in current_line:
+            current_lineb = content[c].strip()
+            current_lineb = current_lineb.upper()
+            if 'SLOT1' in current_lineb or 'SLOT2' in current_lineb:
                 harmed_player = 'PLAYER1'
-            elif 'SLOT3' in current_line or 'SLOT4' in current_line:
+            elif 'SLOT3' in current_lineb or 'SLOT4' in current_lineb:
                 harmed_player = 'PLAYER2'
 
-            harmed_poke = parse_string(current_line, 0, 'SLOT')
-            remain_hp = parse_string(current_line, 'HP:', len(current_line))
+            harmed_poke = parse_string(current_lineb, 0, 'SLOT')
+            remain_hp = parse_string(current_lineb, 'HP:', len(current_lineb))
             if harmed_player == 'PLAYER1':
                 harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
             elif harmed_player == 'PLAYER2':
                 harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
 
             if attacker_player == harmed_player and harmed_poke == attacker_poke:
-                print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '% (SELF DAMAGE)')
+                print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' +
+                      str(remain_hp) + '% (SELF DAMAGE)')
             elif attacker_player == harmed_player and harmed_poke != attacker_poke:
-                print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '% (HARM PARTNER)' )
+                print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' +
+                      str(remain_hp) + '% (HARM PARTNER)')
             elif attacker_player != harmed_player:
-                print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '%')
+                print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' +
+                      str(remain_hp) + '%')
+
 
 for a in range(len(content)):
-    # start = time.time()
     current_line = content[a].strip()
     current_line = current_line.upper()
     if 'USED' in current_line:
         get_attack(a)
-    # end = time.time() - start
-    # print(end)
 
+#FUncionando con:
+#LogV3
+#RashxenAhicodem
+
+
+# def stupid(a):
+#     return a-1
+# hola = get_attack(stupid(57))
