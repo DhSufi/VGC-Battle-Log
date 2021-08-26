@@ -160,11 +160,15 @@ def get_attack_lines(turn):
         return 'NO ATTACKS'
 
     global content
-    turns, lines = get_turns()
+    turns, turn_lines = get_turns()
     attacks_lines = []
 
-    start = lines[turn-1]
-    end = lines[turn]
+    start = turn_lines[turn-1]
+    if turn_lines[-1] == turn_lines[turn-1]:
+        end = len(content)
+    else:
+        end = turn_lines[turn]
+
 
     for a in range(start, end):
         my_line = content[a].rstrip()
@@ -259,60 +263,94 @@ def get_attack(line_number):
 
     # Determinar la lineas de inicio y final del ataque
     attack_lines = get_attack_lines(current_turn)
-    start = line_number
+    start_line = line_number
 
     index = attack_lines.index(line_number)
-    if index + 1 == len(attack_lines):
-        end = turn_lines[current_turn]
+    if attack_lines[index] == attack_lines[-1]: # Si es el ultimo ataque
+        if current_turn == len(turn_lines): # Si es el ultimo turno
+            end_line = len(content)
+            for a in reversed(range(line_number, len(content))):
+                temp_line = content[a].strip()
+                temp_line = temp_line.upper()
+                if 'HAD ITS' in temp_line or 'WAS HURT' in temp_line:
+                    end_line = a
+        else:
+            end_line = turn_lines[current_turn]
+            for a in reversed(range(line_number, turn_lines[current_turn])):
+                temp_line = content[a].strip()
+                temp_line = temp_line.upper()
+                if 'HAD ITS' in temp_line or 'WAS HURT' in temp_line:
+                    end_line = a
     else:
-        end = attack_lines[index+1]
+        end_line = attack_lines[index+1]
 
     # Deterinar que pokemon reciben daño
     harm = False
     harmed_lines = []
-    for b in range(start, end):
-        current_line = content[b].rstrip()
+    for b in range(start_line, end_line):
+        previous_line = content[b - 1].strip()
+        previous_line = previous_line.upper()
+        current_line = content[b].strip()
         current_line = current_line.upper()
+        next_line = content[b + 1].strip()
+        next_line = next_line.upper()
         if 'SLOT' in current_line:
-            harm = True
-            harmed_lines.append(b)
+            if (
+            'GO!' not in previous_line and
+            'SENT OUT' not in previous_line and
+            'HAD ITS' not in previous_line and
+            'HAD ITS' not in next_line and
+            'HURT BY ITS' not in previous_line):
+                harm = True
+                harmed_lines.append(b)
 
     harmed_player = ''
-    harmed_poke = ''
-    remain_hp = ''
     if not harm:
-        print('NO DAGAME DEALT')
+        print('NO DAMAGE DEALT')
     else:
         for c in harmed_lines:
             current_line = content[c].strip()
             current_line = current_line.upper()
             previous_line = content[c-1].strip()
             previous_line = previous_line.upper()
-            if 'GO!' not in previous_line and 'SENT OUT' not in previous_line:
-                if 'SLOT1' in current_line or 'SLOT2' in current_line:
-                    harmed_player = 'PLAYER1'
-                elif 'SLOT3' in current_line or 'SLOT4' in current_line:
-                    harmed_player = 'PLAYER2'
+            # if 'GO!' not in previous_line and 'SENT OUT' not in previous_line:
+            if 'SLOT1' in current_line or 'SLOT2' in current_line:
+                harmed_player = 'PLAYER1'
+            elif 'SLOT3' in current_line or 'SLOT4' in current_line:
+                harmed_player = 'PLAYER2'
 
-                harmed_poke = parse_string(current_line, 0, 'SLOT')
-                remain_hp = parse_string(current_line, 'HP:', len(current_line))
-                if harmed_player == 'PLAYER1':
-                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
-                elif harmed_player == 'PLAYER2':
-                    harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
+            harmed_poke = parse_string(current_line, 0, 'SLOT')
+            remain_hp = parse_string(current_line, 'HP:', len(current_line))
+            if harmed_player == 'PLAYER1':
+                harmed_poke = get_similar_from_list(harmed_poke, pokes_player1)
+            elif harmed_player == 'PLAYER2':
+                harmed_poke = get_similar_from_list(harmed_poke, pokes_player2)
 
-                if attacker_player == harmed_player and harmed_poke == attacker_poke:
-                    print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '% (RECOIL)')
-                elif attacker_player == harmed_player and harmed_poke != attacker_poke:
-                    print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '% (HARM PARTNER)' )
-                elif attacker_player != harmed_player:
-                    print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '%')
-
-
+            if attacker_player == harmed_player and harmed_poke == attacker_poke:
+                print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '% (SELF DAMAGE)')
+            elif attacker_player == harmed_player and harmed_poke != attacker_poke:
+                print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '% (HARM PARTNER)' )
+            elif attacker_player != harmed_player:
+                print('Damaged pokemon: (' + str(harmed_player) + ') ' + str(harmed_poke) + ' Remaining HP: ' + str(remain_hp) + '%')
 
 
+# Si ataco y muere alguien sale fainted
+# justo despues del fainted, restore hp
+# Si se han debilitado pokemon en el turno, Antes de terminar el turno saldría un go! tal o un sent out
+# was hurt aparece como mensaje al terminar fase de ataque ()101
+# Cuando actua el campo de rillaboom, "had its HP"  aparece en la linea de antes o en la linea de despues de un SLOT
 
-get_attack(38)
+
+# def stupid(a):
+#     return a-1
+# get_attack(stupid(16))
+
+
+for a in range(len(content)):
+    current_line = content[a].strip()
+    current_line = current_line.upper()
+    if 'USED' in current_line:
+        get_attack(a)
 
 
 #################################################################################
