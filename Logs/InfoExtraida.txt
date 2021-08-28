@@ -1,0 +1,51 @@
+CALCULATING...
+This attack happened in: TURN 1
+The attacker player was: PLAYER1
+The attacker pokémon was: GOTHITELLE
+The move used in the attack was: HELPING HAND
+NO DAMAGE DEALT
+This attack happened in: TURN 1
+The attacker player was: PLAYER2
+The attacker pokémon was: INCINEROAR
+The move used in the attack was: FAKE OUT
+Damaged pokemon: (PLAYER1) MAMOSWINE Remaining HP: 88%
+This attack happened in: TURN 1
+The attacker player was: PLAYER2
+The attacker pokémon was: GOTHITELLE
+The move used in the attack was: FAKE OUT
+Damaged pokemon: (PLAYER1) GOTHITELLE Remaining HP: 95%
+This attack happened in: TURN 2
+The attacker player was: PLAYER2
+The attacker pokémon was: MAMOSWINE
+The move used in the attack was: ICE SHARD
+Damaged pokemon: (PLAYER1) INCINEROAR Remaining HP: 92%
+This attack happened in: TURN 2
+The attacker player was: PLAYER2
+The attacker pokémon was: INCINEROAR
+The move used in the attack was: PARTING SHOT
+NO DAMAGE DEALT
+This attack happened in: TURN 2
+The attacker player was: PLAYER1
+The attacker pokémon was: INCINEROAR
+The move used in the attack was: PARTING SHOT
+NO DAMAGE DEALT
+This attack happened in: TURN 3
+The attacker player was: PLAYER1
+The attacker pokémon was: GOTHITELLE
+The move used in the attack was: FAKE OUT
+Damaged pokemon: (PLAYER2) MAMOSWINE Remaining HP: 92%
+This attack happened in: TURN 3
+The attacker player was: PLAYER1
+The attacker pokémon was: RILLABOOM
+The move used in the attack was: GRASSY GLIDE
+Damaged pokemon: (PLAYER2) GOTHITELLE Remaining HP: 69%
+This attack happened in: TURN 3
+The attacker player was: PLAYER2
+The attacker pokémon was: GOTHITELLE
+The move used in the attack was: TAUNT
+NO DAMAGE DEALT
+This attack happened in: TURN 4
+The attacker player was: PLAYER1
+The attacker pokémon was: MAMOSWINE
+The move used in the attack was: ICICLE CRASH
+NO DAMAGE DEALT
