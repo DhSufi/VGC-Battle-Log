@@ -1,4 +1,4 @@
-# VGC-Battle-Log (BETA)
+# VGC-Battle-Log
 
 Tool for creating a log file of Pokémon Sword/Shield battles.
 
